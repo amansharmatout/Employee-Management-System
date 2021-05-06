@@ -1,0 +1,83 @@
+<%- include("../../partials/header") %>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="#" class="logo"><strong>Login as:</strong> <%=employee.first_name %> <%= employee.last_name %> -
+					<%= currentUser.user_role%></a>
+			</header>
+
+			<!-- Content -->
+			<section>
+
+				<div>
+					<iframe
+						src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=2&amp;bgcolor=%23f56a6a&amp;ctz=Africa%2FNairobi&amp;title=E.M.S&amp;showPrint=0&amp;showDate=1&amp;showTz=1&amp;showCalendars=0&amp;showTabs=0"
+						style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+				</div>
+
+				<header class="major mt-5">
+					<h2>Attendances</h2>
+				</header>
+
+				<!-- Table -->
+				<div class="table-wrapper" style="margin-top: 30px;">
+					<table>
+						<thead>
+							<tr>
+                                <th>Date</th>
+								<th>Employee ID</th>
+								<th>Full Name</th>
+								<th>Department</th>
+								<th>Designation</th>
+								<th>Time</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% employees.forEach(function(emp){ %>
+                            <% if(emp.company === currentUser.company_name && emp.employee_id !== currentUser.username){ %>
+                                <% if(emp.attendances.length > 0){ %>
+                                    <% emp.attendances.forEach(function(attendance){ %>
+                                        <tr>
+                                            <td><%=attendance.date%></td>
+                                            <td><a href="/homehr/employees/<%=emp._id%>"><%= emp.employee_id %></a></td>
+                                            <td><%= emp.first_name%> <%= emp.last_name%></td>
+                                            <td><%= emp.department %></td>
+											<td><%= emp.designation %></td>
+											<td><%=emp.attendances[emp.attendances.length -1].time%></td>
+                                        </tr>
+                                    <% }) %>
+                                    
+                                <% } %>
+							
+							<% } %>
+							<% }) %>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<%- include("../../partials/hr_sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

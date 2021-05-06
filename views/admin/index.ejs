@@ -1,0 +1,163 @@
+<%- include("../partials/header") %>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="#" class="logo"><strong>Login as:</strong> <%= currentUser.username%> -
+					<%= currentUser.user_role%></a>
+			</header>
+
+			<!-- Banner -->
+			<section id="banner">
+				<div class="content">
+					<header>
+						<h1><%=currentUser.company_name%></h1>
+						<p><%=currentUser.company_type%></p>
+					</header>
+					<p><%=currentUser.company_description%></p>
+					<ul class="actions">
+						<li><a href="/homeadmin/companies/<%=currentUser.company.id%>" class="button big">Learn More</a></li>
+					</ul>
+				</div>
+				<span class="image object">
+					<img src="images/header.jpeg" alt="" />
+				</span>
+			</section>
+
+			<!-- Section -->
+			<section>
+				<header class="major">
+					<h2>Services</h2>
+				</header>
+				<div class="features">
+					<article>
+						<span class="icon fa-gem"></span>
+						<div class="content">
+							<h3>Improve Workforce Management Efficiencies</h3>
+							<p>E.M.S platform works for you, not against you, you’ll never need to import multiple files
+								and re-key data across different platforms.</p>
+						</div>
+					</article>
+					<article>
+						<span class="icon solid fa-handshake"></span>
+						<div class="content">
+							<h3>Employee Engagement</h3>
+							<p>Tools such as Performance Management provides a modern way to track and evaluate employee
+								development. You’re able to work with employees to establish goals, make them feel
+								valuable and develop a path for their success.</p>
+						</div>
+					</article>
+					<article>
+						<span class="icon solid fa-lock"></span>
+						<div class="content">
+							<h3>Securing Employee Information</h3>
+							<p>E.M.S system provide you with specific security measures, multi-factor authentication and
+								data encryption just to name a few, to keep your employees’ information safe.</p>
+						</div>
+					</article>
+					<article>
+						<span class="icon solid fa-chart-line"></span>
+						<div class="content">
+							<h3>HR Data Analytics & Metrics</h3>
+							<p>With data analytics, solutions are developed and results are measured to not only impact
+								your bottom line but help you gain more exposure to your C-Suite.</p>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<!-- Section -->
+			<section>
+				<header class="major">
+					<h2>Departments</h2>
+				</header>
+				<div class="posts">
+					<% departments.forEach(function(dept){ %>
+					<% if(dept.createdBy.username === currentUser.username){ %>
+					<article>
+						<a href="/homeadmin/departments/<%= dept._id%>" class="image"><img
+								src="<%= dept.department_image%>" alt="" /></a>
+						<h3> <%= dept.department_name %></h3>
+						<p><%= dept.department_description.substring(0,100)%> </p>
+						<ul class="actions">
+							<li><a href="/homeadmin/departments/<%= dept._id%>" class="button">More</a></li>
+						</ul>
+					</article>
+					<% } %>
+
+					<% }) %>
+					<!-- <article>
+											<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+											<h3>Interdum aenean</h3>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+											<h3>Nulla amet dolore</h3>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+											<h3>Tempus ullamcorper</h3>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
+											<h3>Sed etiam facilis</h3>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
+											<h3>Feugiat lorem aenean</h3>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
+											<h3>Amet varius aliquam</h3>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button">More</a></li>
+											</ul>
+										</article> -->
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<%- include("../partials/sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

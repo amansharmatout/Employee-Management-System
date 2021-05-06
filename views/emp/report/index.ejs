@@ -1,0 +1,73 @@
+<%- include("../../partials/header") %>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="#" class="logo"><strong>Login as:</strong> <%=employee.first_name %> <%= employee.last_name %> -
+					<%= currentUser.user_role%></a>
+			</header>
+
+			<!-- Content -->
+			<section>
+
+				<header class="major">
+					<h2>Daily Status Reports</h2>
+				</header>
+
+				<!-- Table -->
+				<div class="table-wrapper" style="margin-top: 30px;">
+					<table>
+						<thead>
+							<tr>
+								<th>S. no.</th>
+								<th>Date</th>
+								<th>Title</th>
+								<!-- <th>Reasson</th> -->
+                                <!-- <th>Applied on</th>
+                                <th>Status</th>
+                                <th>Action</th> -->
+
+							</tr>
+						</thead>
+						<tbody>
+                            <% reports.forEach(function(report){ %>
+                                <% if(true){ %>
+                                    <tr>
+                                        <td><%=reports.indexOf(report)+1%></td>
+                                        <td><%=report.date%></td>
+                                        <td><%=report.tasks[0].task%></td>
+                                       
+											
+										
+                                    </tr>
+                                <% } %>
+                            <% }) %>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<%- include("../../partials/emp_sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

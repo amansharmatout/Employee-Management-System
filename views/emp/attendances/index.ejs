@@ -1,0 +1,95 @@
+<%- include("../../partials/header") %>
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="#" class="logo"><strong>Login as:</strong> <%=employee.first_name %> <%= employee.last_name %>
+					- <%= currentUser.user_role%></a>
+			</header>
+
+			<!-- Content -->
+			<section>
+
+				<header class="main">
+					<h3>Calendar</h3>
+				</header>
+
+				<div>
+          <iframe src="https://calendar.google.com/calendar/embed?src=en.indian%23holiday%40group.v.calendar.google.com&ctz=Asia%2FKolkata" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+				</div>
+
+				<hr class="major" />
+
+				<div class="card text-center">
+					<div class="card-header">
+						Attendances
+					</div>
+					<div class="card-body">
+						<% if(typeof employee.attendances !== 'undefined'){ %>
+						<h5 class="card-title" style="font-size: 30px;">Count: <%= employee.attendances.length%></h5>
+						<% }else { %>
+						<h5 class="card-title" style="font-size: 30px;">Count: 0</h5>
+						<% } %>
+
+						<p>Working hours: <strong>From</strong> <%=employee.hour_start%> <strong>To</strong> <%=employee.hour_end%></p>
+						<p class="card-text">A salary payment request will be sent to HRs of your department after 30
+							attendances</p>
+						<form action="/homeemployee/employees/<%=employee._id%>/attendances?_method=PUT" method="POST">
+							<button class="button primary">Mark Attendance</button>
+						</form>
+					</div>
+					<div class="card-footer text-muted">
+						<%= datenow %>
+					</div>
+				</div>
+
+				<hr class="major" />
+
+				<!-- Table -->
+				<div class="table-wrapper" style="margin-top: 30px;">
+					<table>
+						<thead>
+							<tr>
+								<th>Day</th>
+								<th>Date</th>
+								<th>Time</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% employee.attendances.forEach(function(attendance){ %>
+							<tr>
+								<td><%= employee.attendances.indexOf(attendance) + 1 %></td>
+								<td><%= attendance.date%></td>
+								<td><%= attendance.time%></td>
+							</tr>
+							<% }) %>
+
+						</tbody>
+					</table>
+				</div>
+
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<%- include("../../partials/emp_sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

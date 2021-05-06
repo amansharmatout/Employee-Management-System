@@ -1,0 +1,104 @@
+<div id="sidebar">
+    <div class="inner">
+
+        <!-- Search -->
+        <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Search" />
+            </form>
+        </section>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <header class="major">
+                <h2>Menu</h2>
+            </header>
+            <ul>
+                <li><a href="/homeemployee">Home</a></li>
+                <li><a href="/homeemployee/employees/<%=currentUser.employee.id%>/attendances">Attendances</a></li>
+                <li><a href="/homeemployee/departments/<%=currentUser.department.id%>">View Department</a></li>
+                <li>
+                    <span class="opener">Projects</span>
+                    <ul>
+                        <a href="/homeemployee/projects">View All</a>
+                    </ul>
+                </li>
+                <!-- <li>
+                     <span class="opener">Tasks</span>
+                    <ul>
+                        <li><a href="/homeemployee/tasks">View All</a></li>
+                    </ul> 
+                    <span class="opener">Daily Status Report</span>
+                    <ul>
+                        <li><a href="/homeemployee/tasks">Create</a></li>
+                        <li><a href="/homeemployee/tasks">View All</a></li>
+                    </ul>
+                </li> -->
+                <li>
+                    <span class="opener">Chat Rooms</span>
+                    <ul>
+                        <li><a href="/emschat">Join Chat Room</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">Payrolls</span>
+                    <ul>
+                        <li><a href="/homeemployee/employees/<%=currentUser.employee.id%>/payrolls">Payroll reports</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="opener">Daily Status Update</span>
+                    <ul>
+                        <a href="/report/employee/<%=currentUser.employee.id%>">View All</a>
+                        <a href="/report/employee/<%=currentUser.employee.id%>/new">Create New</a>
+                    </ul>
+                </li>
+                <li><a href="/blogs">Events</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Section -->
+        <section>
+            <header class="major">
+                <h2>Latest Events</h2>
+            </header>
+            <div class="mini-posts">
+                <% blogs.slice(-3).forEach(function(blog){ %>
+                <% if(blog.ownedBy === currentUser.company_name) { %>
+                <article>
+                    <a href="/blogs/<%=blog._id%>" class="image"><img src="<%=blog.image%>" alt="" /></a>
+                    <p><%=blog.content.substring(0,100)%>...</p>
+                </article>
+                <% } %>
+
+                <% }) %>
+            </div>
+            <ul class="actions">
+                <li><a href="/blogs" class="button">View All</a></li>
+            </ul>
+        </section>
+
+        <!-- Section -->
+
+        <section>
+            <header class="major">
+                <h2>Get in touch</h2>
+            </header>
+            <p>E.M.S was built to make difficult tasks look easy to handle for everyone. If you need the developer help
+                with anything, feel free to contact me</p>
+            <ul class="contact">
+                <li class="icon solid fa-envelope"><a href="#">kaymkassai269@gmail.com</a></li>
+                <li class="icon solid fa-phone">+86 17126619126</li>
+                <li class="icon solid fa-home">Fengxian, Shanghai, China</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright">&copy; Kaym Kassai. All rights reserved</p>
+        </footer>
+
+    </div>
+</div>

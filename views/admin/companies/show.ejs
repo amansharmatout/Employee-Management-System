@@ -1,0 +1,89 @@
+<%- include("../../partials/header") %>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+  <!-- Main -->
+  <div id="main">
+    <div class="inner">
+
+      <!-- Header -->
+      <header id="header">
+        <a href="#" class="logo"><strong>Login as:</strong> <%= currentUser.username%></a>
+      </header>
+
+      <!-- Content -->
+      <section>
+
+        <header class="major">
+          <h2><%=company.name%></h2>
+        </header>
+
+        <div class="card text-center">
+          <div class="card-header">
+            <ul class="nav nav-pills card-header-pills">
+              <li class="nav-item">
+                <a class="button" href="#">Edit</a>
+              </li>
+              <li class="nav-item">
+                <form action="/homeadmin/companies/<%=company._id%>?_method=DELETE" method="POST">
+                  <button class="button">Delete</a>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <img src="/images/header.jpeg" alt="" class="image fit" style="width: 50%; margin: auto;">
+            <div class="row">
+              <div class="col-sm-6 mt-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Company Details</h5>
+                    <hr />
+                    <p class="card-text"><strong>Company Name:</strong> <%=company.name%> <br>
+                      <strong>EIN:</strong> <%=company.ein%> <br>
+                      <strong>Type:</strong> <%=company.type%> <br>
+                      <strong>Size:</strong> <%=company.size%> <br>
+                      <strong>Description:</strong> <%=company.description%> <br>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 mt-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Contact Details</h5>
+                    <hr>
+                    <p class="card-text">
+                      <strong>City:</strong> <%=company.city%> <br>
+                      <strong>Address:</strong> <%=company.address%> <br>
+                      <strong>Email:</strong> <%=company.email%> <br>
+                      <strong>Phone:</strong> <%=company.phone%> <br>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <%- include("../../partials/sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

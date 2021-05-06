@@ -1,0 +1,57 @@
+<%- include("../../partials/header") %>
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="#" class="logo"><strong>Login as:</strong> <%= currentUser.username%></a>
+			</header>
+
+			<!-- Content -->
+			<section>
+				<header class="main">
+					<h1>Department List</h1>
+				</header>
+
+				<div class="posts">
+					<% departments.forEach(function(dept){ %>
+					<% if(dept.createdBy.username === currentUser.username){ %>
+					<article>
+						<a href="/homeadmin/departments/<%= dept._id%>" class="image"><img
+								src="<%= dept.department_image%>" alt="" /></a>
+						<h3> <%= dept.department_name %></h3>
+						<p><%= dept.department_description.substring(0,100)%> </p>
+						<ul class="actions">
+							<li><a href="/homeadmin/departments/<%= dept._id%>" class="button">View More</a></li>
+						</ul>
+					</article>
+					<% } %>
+
+					<% }) %>
+
+				</div>
+
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<%- include("../../partials/sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

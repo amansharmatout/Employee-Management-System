@@ -1,0 +1,87 @@
+<%- include("../../partials/header") %>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="#" class="logo"><strong>Login as:</strong> <%=employee.first_name %> <%= employee.last_name %> -
+					<%= currentUser.user_role%></a>
+			</header>
+
+			<!-- Content -->
+			<section>
+
+				<header class="major">
+					<h2>Leaves Applications</h2>
+				</header>
+
+				<!-- Table -->
+				<div class="table-wrapper" style="margin-top: 30px;">
+					<table>
+						<thead>
+							<tr>
+								<th>Employee ID</th>
+								<th>Leave Category</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Reason</th>
+                                <th>Applied on</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+							</tr>
+						</thead>
+						<tbody>
+                            <% leaves.forEach(function(leave){ %>
+                                <% if(leave.company === currentUser.company_name){ %>
+                                    <tr>
+										<td><a href="/homehr/employees/<%=leave.employee.id%>"><%=leave.employee.employee_id%></a></td>
+                                        <td><%=leave.category%></td>
+                                        <td><%=leave.start_date%></td>
+                                        <td><%=leave.end_date%></td>
+                                        <td><%=leave.reason%></td>
+                                        <td><%=leave.apply_date.toDateString()%></td>
+                                        <td><%=leave.status%></td>
+                                        <td>
+											<% if(leave.status === 'Pending'){ %>
+												<form action="/homehr/leaves/<%=leave._id%>?_method=PUT" method="POST" class="delete-form">
+													<button class="button primary small">Approve</button>
+												</form>
+											<% }else { %>
+												<form action="/homehr/leaves/<%=leave._id%>?_method=DELETE" method="POST" class="delete-form">
+													<button class="button small">Remove</button>
+												</form>
+											<% } %>
+											
+										</td>
+                                    </tr>
+                                <% } %>
+                            <% }) %>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Sidebar -->
+	<%- include("../../partials/hr_sidebar") %>
+
+</div>
+
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>
