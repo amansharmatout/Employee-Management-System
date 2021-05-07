@@ -2,6 +2,8 @@
 //                BASIC CONFIGURATIONS
 //===========================================================
 
+const swaggerjsdoc = require("swagger-jsdoc");
+const swaggerui = require("swagger-ui-express");
 const path = require("path"),
 	http = require("http"),
 	express = require("express"),
@@ -53,6 +55,7 @@ const hodRoutes = require("./routes/hod/hod");
 const departmentsRoutes = require("./routes/admin/departments");
 const employeesRoutes = require("./routes/admin/employees");
 const blogsRoutes = require("./routes/admin/blogs");
+const ad_router = require("./routes/admin/report");
 const commentsRoutes = require("./routes/admin/comments");
 const projectsRoutes = require("./routes/admin/projects");
 const companiesRoutes = require("./routes/admin/companies");
@@ -108,7 +111,24 @@ app.use(bodyParser.json());
 app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 app.use(flash());
-
+const options = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "Employee Management System",
+			version: "1.0.0",
+			description: "A simple Employee management with modern features.",
+		},
+		servers: [{ url: "http://localhost:3000" }],
+	},
+	apis: [
+		"./routes/employee/report.js",
+		"./routes/employee/tasks.js",
+		"./routes/employee/projects.js",
+	],
+};
+const specs = swaggerjsdoc(options);
+app.use("/api-docs", swaggerui.serve, swaggerui.setup(specs));
 // ===========================================================
 //                SOCKET.IO CONFIGURATIONS
 // ===========================================================
@@ -211,6 +231,7 @@ app.use(payrollsRoutes);
 app.use(applicationsRoutes);
 app.use(emp_departmentRoutes);
 app.use(emp_attendancesRoutes);
+app.use("/admin/report", ad_router);
 app.use(emp_payrollsRoutes);
 app.use(emp_projectsRoutes);
 app.use(emp_leavesRoutes);

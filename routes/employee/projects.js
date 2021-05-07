@@ -19,6 +19,65 @@ Blog.find({}, function(err, blogs) {
 		allBlogs = blogs;
 	}
 });
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Project:
+ *       type: object
+ *       required:
+ *         - name
+ *         - start
+ *         - end
+ *         - description
+ *         - state
+ *         - department
+ *         - company
+ *         - employees
+ *       properties:
+ *         _id:
+ *           type: ObjectId
+ *           description: The auto-generated id of the project
+ *         name:
+ *           type: string
+ *           description: The name of project
+ *         start:
+ *           type: string
+ *           description: The starting date of project.
+ *         end:
+ *           type: string
+ *           description: The ending date of preoject.
+ *         employees:
+ *           type: Array
+ *           description: The id's of employees who are working on this project.
+ *         state:
+ *           type: string
+ *           description: The current state of project (e.g. In progress.).
+ *         department:
+ *           type: string
+ *           description: The department of project.
+ *         company:
+ *           type: string
+ *           description: The company working on the project.
+ *         description:
+ *           type: string
+ *           description: The description of project.
+ *       example:
+ *         "_id" : "608bc55b25de9e16b474e896"
+ *         "employees" : [ 4736487367238,78426378635876]
+ *         "name" : "Management system"
+ *         "start" : "2020-09-02"
+ *         "end" : "2021-09-02"
+ *         "department" : "development"
+ *         "company" : "Tally"
+ *         "state" : "In progress"
+ *         "description" : "this is a grocery management system."
+ *
+ * */
+
+
+
+
 
 var currentEmployee;
 // INDEX - list all projects

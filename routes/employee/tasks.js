@@ -12,6 +12,65 @@ const Payroll = require("../../models/payroll");
 const tasks = require("../../models/tasks");
 const middleware = require("../../middleware");
 var objectId = require("mongoose").Types.ObjectId;
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Tasks:
+ *       type: object
+ *       required:
+ *         - task
+ *         - time
+ *         - description
+ *       properties:
+ *         _id:
+ *           type: ObjectId
+ *           description: The auto-generated id of the Report.
+ *         task:
+ *           type: string
+ *           description: The title of task.
+ *         time:
+ *           type: string
+ *           description: The time spent on task.
+ *         description:
+ *           type: string
+ *           description: The description and doubts of task.
+ *       example:
+ *         _id: 128474612864178321
+ *         task: "Employee Management System"
+ *         time: 8
+ *         description: "this is a simple management system."
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Employee Management System
+ *   description: The Employee  Management API
+ */
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   get:
+ *     summary: Get a task by ID.
+ *     parameters: 
+ *       - in: path
+ *         name: id
+ *         schema: 
+ *           type: string
+ *         required: true
+ *     tags: [Employee Management System]
+ *     responses:
+ *       200:
+ *         description: returns the task object of corresponding id
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Tasks'
+ *       400:
+ *         description: "No record with given id : "
+ */
 router.get("/:id", (req, res) => {
 	if (!objectId.isValid(req.params.id))
 		return res.status(400).send("No record with given id : " + req.params.id);
@@ -27,6 +86,28 @@ router.get("/:id", (req, res) => {
 			);
 	});
 });
+/**
+ * @swagger
+ * /tasks/:
+ *   post:
+ *     summary: Create a Task in db.
+ *     tags: [Employee Management System]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Tasks'
+ *     responses:
+ *       200:
+ *         description: returns the created task object 
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Tasks'
+ *       400:
+ *         description: Somethinng went wrong...
+ */
 router.post("/", (req, res) => {
 	var task = new tasks({
 		task: req.body.task,
@@ -45,6 +126,28 @@ router.post("/", (req, res) => {
 			);
 	});
 });
+/**
+ * @swagger
+ * /tasks/:
+ *   put:
+ *     summary: Update a Task in db.
+ *     tags: [Employee Management System]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Tasks'
+ *     responses:
+ *       200:
+ *         description: returns the updated task object 
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Tasks'
+ *       400:
+ *         description: Somethinng went wrong...
+ */
 router.put("/", (req, res) => {
 	var task = new tasks({
 		_id: req.body._id,
@@ -57,6 +160,7 @@ router.put("/", (req, res) => {
 		{ $set: task },
 		{ new: true },
 		(err, docs) => {
+      console.log("tasks/// ", docs);
 			if (!err) res.send(docs);
 			else
 				console.log(
@@ -67,6 +171,29 @@ router.put("/", (req, res) => {
 		},
 	);
 });
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   delete:
+ *     summary: delete a Task in db.
+ *     tags: [Employee Management System]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Tasks'
+ *     responses:
+ *       200:
+ *         description: returns the deleted task object 
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Tasks'
+ *       400:
+ *         description: Somethinng went wrong...
+ */
 router.delete("/:id", (req, res) => {
 	tasks.findByIdAndDelete(req.params.id, (err, docs) => {
 		if (!err) res.send(docs);

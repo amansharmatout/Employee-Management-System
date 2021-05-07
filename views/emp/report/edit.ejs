@@ -68,7 +68,7 @@ span{
 			<section>
 
 				<header class="major">
-					<h2>Daily Status Report</h2>
+					<h2>Edit Daily Status Report</h2>
 				</header>
 
                 <!-- <p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis
@@ -79,8 +79,10 @@ span{
                 
                 </p> -->
                 <!-- Form -->
-                <form id="multi" action="/report/" method="POST">
+                <form id="multi" action="/report/update" method="POST">
                   <div class="form-row">
+                    <input hidden value="default" type="text" name="tid">
+                    <input hidden type="text" name="_id" value="<%=report._id%>">
                     <input hidden name="emp_id" type="text" value="<%=employee._id%>"> 
                     <div hidden class="form-group col-md-4 ">
                       <label for="task">Task 1:</label>
@@ -92,7 +94,7 @@ span{
                     </div>
                     <div class="form-group col-md-4">
                       <label for="date">Date</label>
-                      <input type="date" class="form-control" id="date" name="date">
+                      <input type="date" value="<%=new Date(report.date).getFullYear()+'-'+((new Date(report.date).getMonth() + 1) <= 9 ? '0' + (new Date(report.date).getMonth() + 1) : (new Date(report.date).getMonth() + 1))+'-'+(new Date(report.date).getDate() <= 9 ? '0' + new Date(report.date).getDate()  : new Date(report.date).getDate() )%>" class="form-control" id="date" name="date">
                     </div>
                   </div>
                   <div hidden class="form-row">
@@ -102,66 +104,67 @@ span{
                       </div>
                   </div>
                   
-                   
+
                       <div id="add" class="">
-                        
+                        <% report.tasks.forEach((task)=>{%>
                         <div class="form-border">
                           <span>                      
                             <p hidden  id="link" onclick="remove(``)" class="dlt btn-sm" >X</p>
                           </span>
-                          
+                          <input hidden type="text" value="<%=task._id%>" name="tid">
                           <div class="form-row ts">
                                                  
                             <div class="form-group col-md-4 ">
-                              <label for="task">Task 1:</label>
-                              <input list="projects" required type="text"  class="form-control" id="task0" name="tasks">
+                              <label for="task">Task <%=report.tasks.indexOf(task)+1%>:</label>
+                              <input list="projects" required type="text" value="<%=task.task%>" class="form-control" id="task<%=report.tasks.indexOf(task)%>" name="tasks">
                             </div>
                             <div class="form-group col-md-4">
                               <label for="time">Time Spent (in hrs.)</label>
-                              <input required placeholder="in Hours" type="number" class="form-control" id="time0" name="time">
+                              <input value="<%=task.time%>" required placeholder="in Hours" type="number" class="form-control" id="time<%=report.tasks.indexOf(task)%>" name="time">
                             </div>
                           </div>
                           <div class="form-row ds">
                             <div class="form-group col-md-12 ">
                               <label for="desc">Description or Doubts</label>
-                              <textarea required id="desc0" name="desc" cols="30" rows="5"></textarea>
+                              <textarea required id="desc<%=report.tasks.indexOf(task)%>" name="desc" cols="30" rows="5"><%=task.description%></textarea>
                             </div>
-                          </div>
+	                       </div>
+                        </div>
+                        <% }) %>
+                      </div>
+
+                    
+                      <div class="contr">
+                        <button type="submit" class="button primary ">Update</button>
+                        <div class="btn-holder">
+                          <!-- <p class="anchor" onclick="add()">Add another Task</p> -->
                         </div>
                       </div>
-                     
-                     
-                     <div class="contr">
-                      <button class="button primary ">Apply</button>
-                      <div class="btn-holder">
-                        <p class="anchor" onclick="add()">Add another Task</p>
-                      </div>
-                    </div>
-                    
-                </form>
-                <datalist id="projects">
-                  <% projects.forEach(function(project){ %>
-                    <option value="<%=project.name%>">
-                  <% }) %>
-                </datalist>
-			</section>
-
-		</div>
-	</div>
-
-	<!-- Sidebar -->
-	<%- include("../../partials/emp_sidebar") %>
-
-</div>
-
-<!-- Scripts -->
-<script src="/js/jquery.min.js"></script>
-<script src="/js/browser.min.js"></script>
-<script src="/js/breakpoints.min.js"></script>
-<script src="/js/util.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/rep_new.js"></script>
-
-</body>
-
-</html>
+                      
+                  </form>
+                  <datalist id="projects">
+                    <% projects.forEach(function(project){ %>
+                      <option value="<%=project.name%>">
+                    <% }) %>
+                  </datalist>
+        </section>
+  
+      </div>
+    </div>
+  
+    <!-- Sidebar -->
+    <%- include("../../partials/emp_sidebar") %>
+  
+  </div>
+  
+  <!-- Scripts -->
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/browser.min.js"></script>
+  <script src="/js/breakpoints.min.js"></script>
+  <script src="/js/util.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/rep_new.js"></script>
+  
+  </body>
+  
+  </html>

@@ -9,8 +9,7 @@
 
 			<!-- Header -->
 			<header id="header">
-				<a href="#" class="logo"><strong>Login as:</strong> <%=employee.first_name %> <%= employee.last_name %> -
-					<%= currentUser.user_role%></a>
+				<a href="#" class="logo"><strong>Login as:</strong>  <%= currentUser.username%></a>
 			</header>
 
 			<!-- Content -->
@@ -27,26 +26,22 @@
 							<tr>
 								<th>S. no.</th>
 								<th>Date</th>
-								<th>Title</th>
-                <th>Time Spent</th>
-                
+								<th>Employee Name</th>
 								<!-- <th>Reasson</th> -->
                                 <!-- <th>Applied on</th>
                                 <th>Status</th>
                                 <th>Action</th> -->
-
 							</tr>
 						</thead>
 						<tbody>
                             <% reports.forEach(function(report){ %>
-                                <% if(true){ %>
+                               
                                     <tr>
                                         <td><%=reports.indexOf(report)+1%></td>
-                                        <td><a href="/report/<%=report._id%>/edit"><%=report.date%></a></td>
-                                        <td><%=report.tasks[0].task%></td>
-                                        <td><%=report.tasks[0].time%> hrs.</td>
-                                    </tr>
-                                <% } %>
+                                        <td><a href="/admin/report/<%=report._id%>"><%=report.date%></a></td>
+                                        <td><a href="/admin/report/<%=report._id%>"><%=report.emp_id.first_name+" "+ report.emp_id.last_name%></a></td>
+                                      								
+                                    </tr>                               
                             <% }) %>
 						</tbody>
 					</table>
@@ -57,7 +52,7 @@
 	</div>
 
 	<!-- Sidebar -->
-	<%- include("../../partials/emp_sidebar") %>
+	<%- include("../../partials/sidebar") %>
 
 </div>
 
