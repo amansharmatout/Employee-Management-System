@@ -127,34 +127,35 @@ Blog.find({}, function(err, blogs) {
  *         description: "No record with given id : "
  */
 router.post("/", (req, res) => {
-  console.log(req.body);
+	console.log(req.body);
 	let requests = req.body.tasks.map((task) => {
 		//create a promise for each API call
-    if(task!='default'){
+	  if(task!='default'){
 		return new Promise((resolve, reject) => {
-        request(
-          {
-            uri: "http://localhost:3000/tasks/",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body:{
-              task: task,
-              time: req.body.time[req.body.tasks.indexOf(task)],
-              description: req.body.desc[req.body.tasks.indexOf(task)],
-            },
-            json: true,
-          },
-          (err, res, body) => {
-            if (err) {
-              reject(err);
-            }
-            //call the resolve function which is passed to the executor                             //function passed to the promise
-            resolve(body._id);
-          },
-        );
-      });
+	      request(
+					{
+						uri: "http://localhost:3000/tasks/",
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: {
+							task: task,
+							time: req.body.time[req.body.tasks.indexOf(task)],
+							description: req.body.desc[req.body.tasks.indexOf(task)],
+							project_id: req.body.project_id[req.body.tasks.indexOf(task)],
+						},
+						json: true,
+					},
+					(err, res, body) => {
+						if (err) {
+							reject(err);
+						}
+						//call the resolve function which is passed to the executor                             //function passed to the promise
+						resolve(body._id);
+					},
+				);
+	    });
 		};
 	});
 	Promise.all(requests)
@@ -167,7 +168,7 @@ router.post("/", (req, res) => {
 			});
 			rep.save((err, docs) => {
 				if (!err) res.redirect('/report/employee/'+req.body.emp_id);
-				else  
+				else
 					console.log(
 						err +
 							"Something went wrong...   " +
@@ -287,28 +288,29 @@ router.post("/update", (req, res) => {
     if(task!='default'){
       return new Promise((resolve, reject) => {
           request(
-            {
-              uri: "http://localhost:3000/tasks/",
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body:{
-                task: task,
-                time: req.body.time[req.body.tasks.indexOf(task)],
-                description: req.body.desc[req.body.tasks.indexOf(task)],
-                _id: req.body.tid[req.body.tasks.indexOf(task)],
-              },
-              json: true,
-            },
-            (err, res, body) => {
-              if (err) {
-                reject(err);
-              }
-              //call the resolve function which is passed to the executor                             //function passed to the promise
-              resolve(body._id);
-            },
-          );
+						{
+							uri: "http://localhost:3000/tasks/",
+							method: "PUT",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: {
+								task: task,
+								time: req.body.time[req.body.tasks.indexOf(task)],
+								description: req.body.desc[req.body.tasks.indexOf(task)],
+								_id: req.body.tid[req.body.tasks.indexOf(task)],
+								project_id: req.body.project_id[req.body.tasks.indexOf(task)],
+							},
+							json: true,
+						},
+						(err, res, body) => {
+							if (err) {
+								reject(err);
+							}
+							//call the resolve function which is passed to the executor                             //function passed to the promise
+							resolve(body._id);
+						},
+					);
       });
 		}
 	});

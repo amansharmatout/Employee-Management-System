@@ -87,6 +87,12 @@ span{
                       <input  type="text" value="default"  class="form-control" id="task" name="tasks">
                     </div>
                     <div hidden class="form-group col-md-4 ">
+                      <label for="project">Project:</label>
+                      <select  name="project_id" id="">
+                        <option value="default">default</option>
+                      </select>
+                    </div>
+                    <div hidden class="form-group col-md-4 ">
                         <label for="time">Time Spent </label>
                         <input  placeholder="in Hours" value="5" type="number" class="form-control" id="time" name="time">
                     </div>
@@ -111,11 +117,19 @@ span{
                           </span>
                           
                           <div class="form-row ts">
-                                                 
+                            <div class="form-group col-md-4 ">
+                              <label for="project">Project:</label>
+                              <select required name="project_id" id="project_id">
+                                <% projects.forEach(function(project){ %>
+                                  <option value="<%=project._id%>"><%=project.name%></option>
+                                <% }) %>
+                              </select>
+                            </div> 
                             <div class="form-group col-md-4 ">
                               <label for="task">Task 1:</label>
                               <input list="projects" required type="text"  class="form-control" id="task0" name="tasks">
                             </div>
+                           
                             <div class="form-group col-md-4">
                               <label for="time">Time Spent (in hrs.)</label>
                               <input required placeholder="in Hours" type="number" class="form-control" id="time0" name="time">
@@ -139,11 +153,11 @@ span{
                     </div>
                     
                 </form>
-                <datalist id="projects">
+                <!-- <datalist id="projects">
                   <% projects.forEach(function(project){ %>
                     <option value="<%=project.name%>">
                   <% }) %>
-                </datalist>
+                </datalist> -->
 			</section>
 
 		</div>

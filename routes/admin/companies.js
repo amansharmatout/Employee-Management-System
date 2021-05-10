@@ -26,6 +26,47 @@ router.get('/homeadmin/companies/:id', middleware.isLoggedInAsAdmin, async (req,
 	}
 });
 
+router.post("/admin/update", function (req, res) {
+	let newCompany = new Company({
+		name: req.body.company_name,
+		city: req.body.company_city,
+		type: req.body.company_type,
+		address: req.body.company_address,
+		email: req.body.company_email,
+		phone: req.body.company_phone,
+		size: req.body.company_size,
+		description: req.body.company_description,
+		ein: req.body.ein,
+	});
+	Company.findByIdAndUpdate(req.body._id, newCompany, (err, docs) => {
+		if (!err) {
+			// res.redirect('/homeadmin/companies/'+req.body._id);
+			var user = {
+				username: req.body.username,
+				user_email: req.body.user_email,
+				user_role: sel,
+				company_name: req.body.company_name,
+				company_email: req.body.company_email,
+				company_phone: req.body.company_phone,
+				company_address: req.body.company_address,
+				company_type: req.body.company_type,
+				company_city: req.body.company_city,
+				company_size: req.body.company_size,
+				company_description: req.body.company_description,
+				company: {
+					id: req.body._id,
+					ein: req.body.ein,
+				},
+			};
+			User.findByIdAndUpdate(req.body.emp_id, user, (err, docs) => {
+				if (!err) {
+					res.redirect("/homeadmin/companies/" + req.body._id);
+				}
+			});
+		}
+	});
+});
+
 // Delete - Delete a particular company
 router.delete('/homeadmin/companies/:id', middleware.isLoggedInAsAdmin, async (req, res) => {
 	try {

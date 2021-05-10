@@ -6,7 +6,17 @@ const Company = require("../models/company");
 
 //landing page route
 router.get("/", function (req, res) {
-	res.render("landing");
+  Company.find({}, (err, docs) => {
+		if (!err && docs.length >= 1) {
+			res.render("landing", {
+				visibility: "none",
+			});
+		} else if (!err && docs.length == 0) {
+			res.render("landing", {
+				visibility: "",
+			});
+		}
+	});
 });
 
 //SHOW register form
@@ -105,15 +115,15 @@ router.post("/login", function (req, res) {
 					passport.authenticate("local")(req, res, function () {
 						res.redirect("/homeadmin");
 					});
-				} else if (user.user_role === "HOD") {
+				} else if (user.user_role === "HOD" && user.password==req.body.password) {
 					passport.authenticate("local")(req, res, function () {
 						res.redirect("/homehod");
 					});
-				} else if (user.user_role === "HR") {
+				} else if (user.user_role === "HR" && user.password==req.body.password) {
 					passport.authenticate("local")(req, res, function () {
 						res.redirect("/homehr");
 					});
-				} else {
+				} else if(user.password==req.body.password) {
 					console.log("else index.js", user);
 					// passport.authenticate('local', { successRedirect: '/homeemployee',
 					//                          failureRedirect: '/login' });
@@ -138,7 +148,10 @@ router.post("/login", function (req, res) {
 							res.redirect("/homeemployee");
 						});
 					})(req, res, undefined);
-				}
+				}else{
+          req.flash("error", "Wrong Username or passsword...");
+				  res.redirect("/");
+        }
 			} else {
 				req.flash("error", "Oops something went wrong please try again");
 				res.redirect("/");

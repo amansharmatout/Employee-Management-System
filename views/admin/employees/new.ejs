@@ -77,9 +77,9 @@
 										name="employee[nationality]" required>
 								</div>
 								<div class="form-group col-md-3">
-									<label for="inputGender">Passport NO</label>
+									<label for="inputGender">Password</label>
 									<input type="text" class="form-control" id="inputGender"
-										name="employee[passport_no]" required>
+										name="employee[password]" required>
 								</div>
 								<div class="form-group col-md-3">
 									<label for="inputPhoto">Photo(URL)</label>
@@ -167,7 +167,7 @@
 								</div>
 								<div class="form-group col-md-4">
 									<label for="inputDesignation">Designation</label>
-									<input type="text" class="form-control" id="inputDesignation"
+									<input list="designatio" type="text" class="form-control" id="inputDesignation"
 										name="employee[designation]" required>
 								</div>
 								<div class="form-group col-md-4">
@@ -231,6 +231,11 @@
 
 					<button type="submit" class="button primary mt-3">Create</button>
 				</form>
+        <datalist id="designatio">
+          <option value="Admin">
+          <option value="HR">
+          <option value="HOD">
+        </datalist>
 
 			</section>
 

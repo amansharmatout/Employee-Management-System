@@ -86,7 +86,7 @@ router.post('/homeadmin/employees', middleware.isLoggedInAsAdmin, function(req, 
 	// 	gender: req.body.employee.gender,
 	// 	marital_status: req.body.employee.marital_status,
 	// 	nationality: req.body.employee.nationality,
-	// 	passport_no: req.body.employee.passport_no,
+	// 	password: req.body.employee.password,
 	// 	photo: req.body.employee.photo,
 	// 	address: req.body.employee.address,
 	// 	city: req.body.employee.city,
@@ -106,58 +106,65 @@ router.post('/homeadmin/employees', middleware.isLoggedInAsAdmin, function(req, 
 	// 	type_of_employee: req.body.employee.type_of_employee,
 	// 	qualification: req.body.employee.qualification
 	// };
-	Employee.create(req.body.employee, function(err, newlyCreated) {
+	Employee.create(req.body.employee, function (err, newlyCreated) {
 		if (err) {
 			console.log(err);
-			req.flash('error', err.message);
-			res.redirect('back');
+			req.flash("error", err.message);
+			res.redirect("back");
 		} else {
 			console.log(newlyCreated);
-			var pwd = '2020' + newlyCreated.passport_no;
+			var pwd = "2020" + newlyCreated.passport_no;
 			var pwdUpdate = { password: pwd };
-			Employee.findByIdAndUpdate(newlyCreated._id, pwdUpdate, function(err, emp) {
-				if (err) {
-					console.log(err);
-					res.redirect('back');
-				} else {
-					Department.findOne({ department_name: emp.department, company: req.user.company_name }, function(
-						err,
-						foundDepartment
-					) {
-						if (err) {
-							console.log(err);
-							res.redirect('back');
-						} else {
-							var newUser = new User({
-								username: newlyCreated.employee_id,
-								user_email: newlyCreated.email,
-								user_role: newlyCreated.designation,
-								company_name: newlyCreated.company,
-								company: {
-									id: req.user.company.id
-								},
-								employee: {
-									id: emp.id
-								},
-								department: {
-									id: foundDepartment.id
-								}
-							});
-
-							// newUser.employees.push(updated);
-
-							User.register(newUser, pwd, function(err, user) {
+			Employee.findByIdAndUpdate(
+				newlyCreated._id,
+				pwdUpdate,
+				function (err, emp) {
+					if (err) {
+						console.log(err);
+						res.redirect("back");
+					} else {
+						Department.findOne(
+							{
+								department_name: emp.department,
+								company: req.user.company_name,
+							},
+							function (err, foundDepartment) {
 								if (err) {
 									console.log(err);
-									return res.redirect('back');
-								}
+									res.redirect("back");
+								} else {
+									var newUser = new User({
+										username: newlyCreated.employee_id,
+										user_email: newlyCreated.email,
+										user_role: newlyCreated.designation,
+										company_name: newlyCreated.company,
+										company: {
+											id: req.user.company.id,
+										},
+										employee: {
+											id: emp.id,
+										},
+										department: {
+											id: foundDepartment.id,
+										},
+									});
 
-								res.redirect('/homeadmin/employees');
-							});
-						}
-					});
-				}
-			});
+									// newUser.employees.push(updated);
+
+									User.register(newUser, pwd, function (err, user) {
+										if (err) {
+											console.log(err);
+											return res.redirect("back");
+										}
+
+										res.redirect("/homeadmin/employees");
+									});
+								}
+							},
+						);
+					}
+				},
+			);
 		}
 	});
 });

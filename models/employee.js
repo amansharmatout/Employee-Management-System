@@ -9,7 +9,7 @@ var employeeSchema = new mongoose.Schema({
 	gender: String,
 	marital_status: String,
 	nationality: String,
-	passport_no: String,
+	password: String,
 	photo: String,
 	// Contact Details
 	address: String,
@@ -38,9 +38,9 @@ var employeeSchema = new mongoose.Schema({
 	attendances: [
 		{
 			date: String,
-			time: String
-		}
-	]
+			time: String,
+		},
+	],
 });
 // var Emp = mongoose.model('Employee', employeeSchema);
 
