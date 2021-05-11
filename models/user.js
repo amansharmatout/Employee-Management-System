@@ -37,18 +37,17 @@ var UserSchema = new mongoose.Schema({
 	}
 });
 
-UserSchema.pre('remove', async function(next) {
+UserSchema.pre("remove", async function (next) {
 	try {
 		await Employee.remove({
 			_id: {
-				$in: this.employees
-			}
+				$in: this.employees,
+			},
 		});
 	} catch (err) {
 		next(err);
 	}
 });
-
 // bcrypt middleware
 // UserSchema.pre('save', function(next) {
 // 	const user = this;

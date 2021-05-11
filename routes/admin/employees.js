@@ -113,7 +113,7 @@ router.post('/homeadmin/employees', middleware.isLoggedInAsAdmin, function(req, 
 			res.redirect("back");
 		} else {
 			console.log(newlyCreated);
-			var pwd = "2020" + newlyCreated.passport_no;
+			var pwd = newlyCreated.passport_no;
 			var pwdUpdate = { password: pwd };
 			Employee.findByIdAndUpdate(
 				newlyCreated._id,
@@ -137,6 +137,7 @@ router.post('/homeadmin/employees', middleware.isLoggedInAsAdmin, function(req, 
 										username: newlyCreated.employee_id,
 										user_email: newlyCreated.email,
 										user_role: newlyCreated.designation,
+										password: newlyCreated.password,
 										company_name: newlyCreated.company,
 										company: {
 											id: req.user.company.id,

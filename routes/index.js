@@ -48,6 +48,7 @@ router.post("/register", function (req, res) {
 			newUser = new User({
 				username: req.body.username,
 				user_email: req.body.user_email,
+				password: req.body.password,
 				user_role: sel,
 				company_name: req.body.company_name,
 				company_email: req.body.company_email,
@@ -111,19 +112,70 @@ router.post("/login", function (req, res) {
 			if (user != null && user.company_name === req.body.company_name) {
 				console.log(user.company_name, user);
         var Login=user;
-				if (user.user_role === "Admin") {
-					passport.authenticate("local")(req, res, function () {
-						res.redirect("/homeadmin");
-					});
-				} else if (user.user_role === "HOD" && user.password==req.body.password) {
-					passport.authenticate("local")(req, res, function () {
-						res.redirect("/homehod");
-					});
-				} else if (user.user_role === "HR" && user.password==req.body.password) {
-					passport.authenticate("local")(req, res, function () {
-						res.redirect("/homehr");
-					});
-				} else if(user.password==req.body.password) {
+				if (user.user_role === "Admin" && user.password == req.body.password) {
+					// passport.authenticate("local")(req, res, function () {
+					// 	res.redirect("/homeadmin");
+					// });
+          passport.authenticate("local", function (err, user, info) {
+						console.log("logger", Login, err, info);
+						// if (err) {
+						// 	console.log(err);
+						//   res.next(err)
+						// }
+						// if (!user) {
+						// 	return res.redirect("/login");
+						// }
+						req.logIn(Login, function (err) {
+							if (err) {
+								console.log(err);
+							}
+							console.log("/homeadmin" + Login.username);
+							res.redirect("/homeadmin");
+						});
+					})(req, res, undefined);
+				} else if (
+					user.user_role === "HOD" &&
+					user.password == req.body.password
+				) {
+          passport.authenticate("local", function (err, user, info) {
+						console.log("logger", Login, err, info);
+						// if (err) {
+						// 	console.log(err);
+						//   res.next(err)
+						// }
+						// if (!user) {
+						// 	return res.redirect("/login");
+						// }
+						req.logIn(Login, function (err) {
+							if (err) {
+								console.log(err);
+							}
+							console.log("/users/" + Login.username);
+							res.redirect("/homehod");
+						});
+          })(req, res, undefined);
+				} else if (
+					user.user_role === "HR" &&
+					user.password == req.body.password
+				) {
+					passport.authenticate("local", function (err, user, info) {
+						console.log("logger", Login, err, info);
+						// if (err) {
+						// 	console.log(err);
+						//   res.next(err)
+						// }
+						// if (!user) {
+						// 	return res.redirect("/login");
+						// }
+						req.logIn(Login, function (err) {
+							if (err) {
+								console.log(err);
+							}
+							console.log("/users/" + Login.username);
+							res.redirect("/homehr");
+						});
+          })(req, res, undefined);
+				} else if (user.password == req.body.password) {
 					console.log("else index.js", user);
 					// passport.authenticate('local', { successRedirect: '/homeemployee',
 					//                          failureRedirect: '/login' });
@@ -148,10 +200,10 @@ router.post("/login", function (req, res) {
 							res.redirect("/homeemployee");
 						});
 					})(req, res, undefined);
-				}else{
-          req.flash("error", "Wrong Username or passsword...");
-				  res.redirect("/");
-        }
+				} else {
+					req.flash("error", "Wrong Username or passsword...");
+					res.redirect("/");
+				}
 			} else {
 				req.flash("error", "Oops something went wrong please try again");
 				res.redirect("/");

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var mongoose = require("mongoose");
 const User = require('../../models/user');
 const Blog = require('../../models/blog');
 const Comment = require('../../models/comment');
@@ -11,7 +12,8 @@ const Task = require('../../models/task');
 const Project = require('../../models/project');
 const Leave = require('../../models/leave');
 const middleware = require('../../middleware');
-
+const { ObjectId } = require('mongodb');
+// var ObjectId = mongoose.Schema.ObjectId;
 // SHOW - show info about one specific company
 router.get('/homeadmin/companies/:id', middleware.isLoggedInAsAdmin, async (req, res) => {
 	try {
@@ -26,8 +28,9 @@ router.get('/homeadmin/companies/:id', middleware.isLoggedInAsAdmin, async (req,
 	}
 });
 
-router.post("/admin/update", function (req, res) {
-	let newCompany = new Company({
+router.post("/admin/update", middleware.isLoggedInAsAdmin, function (req, res) {
+	console.log('req.body=====',req.body);
+	let newCompany = {
 		name: req.body.company_name,
 		city: req.body.company_city,
 		type: req.body.company_type,
@@ -36,15 +39,15 @@ router.post("/admin/update", function (req, res) {
 		phone: req.body.company_phone,
 		size: req.body.company_size,
 		description: req.body.company_description,
-		ein: req.body.ein,
-	});
-	Company.findByIdAndUpdate(req.body._id, newCompany, (err, docs) => {
+		ein: req.body.ein,    
+	};
+	Company.updateOne({ _id: req.body.company_id}, { $set: newCompany}, (err, docs) => {
 		if (!err) {
-			// res.redirect('/homeadmin/companies/'+req.body._id);
+			console.log('docs================',docs)
 			var user = {
 				username: req.body.username,
 				user_email: req.body.user_email,
-				user_role: sel,
+				user_role: req.body.user_role,
 				company_name: req.body.company_name,
 				company_email: req.body.company_email,
 				company_phone: req.body.company_phone,
@@ -54,17 +57,45 @@ router.post("/admin/update", function (req, res) {
 				company_size: req.body.company_size,
 				company_description: req.body.company_description,
 				company: {
-					id: req.body._id,
+					id: req.body.company_id,
 					ein: req.body.ein,
-				},
+				},       
 			};
-			User.findByIdAndUpdate(req.body.emp_id, user, (err, docs) => {
+			User.updateOne({_id: req.body.emp_id},{ $set: user}, (err, docs) => {
 				if (!err) {
-					res.redirect("/homeadmin/companies/" + req.body._id);
-				}
+          var user = new User({
+            username: req.body.username,
+            user_email: req.body.user_email,
+            user_role: req.body.user_role,
+            company_name: req.body.company_name,
+            company_email: req.body.company_email,
+            company_phone: req.body.company_phone,
+            company_address: req.body.company_address,
+            company_type: req.body.company_type,
+            company_city: req.body.company_city,
+            company_size: req.body.company_size,
+            company_description: req.body.company_description,
+            company: {
+              id: req.body.company_id,
+              ein: req.body.ein,
+            },       
+          });
+          res.redirect("/homeadmin/companies/" + req.body.company_id);			
+				}else console.log('error: ',err);
 			});
-		}
+		}else console.log('error : ',err);
 	});
+});
+
+router.get("/admin/update/:id", middleware.isLoggedInAsAdmin, (req, res) => {
+	User.findById(req.params.id)
+		.populate("company.id")
+		.exec((err, docs) => {
+			console.log(docs);
+			res.render("edit", {
+				user: docs,
+			});
+		});
 });
 
 // Delete - Delete a particular company
